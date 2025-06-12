@@ -1,0 +1,108 @@
+{*** 결합할인 메인상품 장바구니시 결합할인 안내 | goods/layer_bundle_main_cart.php ***}
+<div class="layer_coupon_down">
+	<div class="ly_head">
+		<h2 class="h_tit">{=__('함께 사면 할인되는 상품')}</h2>
+	</div>
+	<!--{ ? gd_is_login() === false }-->
+	<p>{=__('로그인하셔야 본 서비스를 이용하실 수 있습니다.')}</p>
+	<!--{ : }-->
+	<div class="ly_content ly_ct">
+		<!--{ @dataBanner('2645931351') }-->{.tag}<!--{ / }-->
+	</div>
+	<div class="close_btn">
+		<button type="button" class="lys_close_btn ly_btn_close" >{=__('닫기')}</button>
+	</div>
+	<!--{ / }-->
+</div>
+
+<!--//쿠폰 다운받기 레이어 -->
+<!--{ ? gd_is_login() !== false }-->
+<script type="text/javascript">
+    <!--
+    $(document).ready(function () {
+		$('#popupCoupon .ly_ct').height($(window).height()-73);
+
+        //$('.couponlist-title .close-btn').on('click', function (e) {
+        //    close_layer($(this));
+        //    return false;
+        //});
+
+        $('.btn_coupon_down').click(function (e) {
+            var displayBtn = $(this).parent('span');
+            var couponNo = $(this).data('coupon-no');
+			var params = {
+				couponNo: couponNo,
+				mode: 'coupon_down',
+				goodsNo: '{goodsNo}',
+				scmNo: '{scmNo}',
+				brandCd: '{brandCd}'
+			};
+            $.ajax({
+                method: "POST",
+                cache: false,
+                url: "../goods/layer_coupon_ps.php",
+				data: params,
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    alert(data['message']);
+					displayBtn.html('');
+					if(data['code'] == 200) {
+						displayBtn.addClass('coupon_download_ok_btn');
+						displayBtn.html("{=__('발급완료')}");
+						$('.goods-coupon-cnt').html('(' + data['goodsCouponCnt'] + ')');
+					} else {
+						displayBtn.addClass('coupon_download_no_btn');
+						displayBtn.html("{=__('발급불가')}");
+					}
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        });
+        $('#btnAllCouponDown').click(function (e) {
+            var couponArrData = [];
+            $('.btn_coupon_down').each(function (index, item) {
+                couponArrData.push($(item).data('coupon-no'));
+            });
+            var countCoupon = couponArrData.length;
+            if (countCoupon > 0) {
+                var params = {
+                    couponNo: couponArrData,
+                    mode: 'coupon_down_all',
+					goodsNo: '{goodsNo}',
+					scmNo: '{scmNo}',
+					brandCd: '{brandCd}'
+                };
+                $.ajax({
+                    method: "POST",
+                    cache: false,
+                    url: "../goods/layer_coupon_ps.php",
+                    data: params,
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        alert(data['message']);
+                        $('.goods-coupon-cnt').html('(' + data['goodsCouponCnt'] + ')');
+                        gd_coupon_down_layer_close();
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
+            } else {
+                alert("{=__('발급 가능 쿠폰이 없습니다.')}");
+                return false;
+            }
+        });
+    });
+    function gd_coupon_down_layer_close() {
+        $('#couponDownLayer').closest('.layer_wrap').addClass('dn');
+        $('#layerDim').addClass('dn');
+        $('html').removeClass('oh-space');
+        //$('#scroll-left, #scroll-right').removeClass('dim');
+    }
+    //-->
+</script>
+<!--{ / }-->

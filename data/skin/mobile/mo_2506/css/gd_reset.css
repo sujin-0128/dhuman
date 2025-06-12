@@ -1,0 +1,129 @@
+@charset "UTF-8";
+/* @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(//fonts.googleapis.com/css?family=Lato:400,700,900);
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url(//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,300); 202010*/
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700&display=swap'); /* Noto Sans KR추가 202010 */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700&display=swap'); /* Roboto추가 202010 */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url("musign/mu_main.css");
+@import url("musign/mu_order.css");
+@import url("musign/mu_layout.css");
+@import url("musign/mu_goods.css");
+@import url("musign/mu_member.css");
+@import url("musign/mu_review.css");
+
+ /* Nanum Gothic (Korean) http://www.google.com/fonts/earlyaccess */
+
+/* @font-face {
+  font-family: 'Nanum Gothic';
+  font-style: normal;
+  font-weight: 400;
+  src: url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-Regular.eot);
+  src: url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-Regular.eot?#iefix) format('embedded-opentype'),
+       url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-Regular.woff2) format('woff2'),
+       url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-Regular.woff) format('woff'),
+       url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-Regular.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Nanum Gothic';
+  font-style: normal;
+  font-weight: 700;
+  src: url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-Bold.eot);
+  src: url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-Bold.eot?#iefix) format('embedded-opentype'),
+       url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-Bold.woff2) format('woff2'),
+       url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-Bold.woff) format('woff'),
+       url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-Bold.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Nanum Gothic';
+  font-style: normal;
+  font-weight: 800;
+  src: url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-ExtraBold.eot);
+  src: url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-ExtraBold.eot?#iefix) format('embedded-opentype'),
+       url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-ExtraBold.woff2) format('woff2'),
+       url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-ExtraBold.woff) format('woff'),
+       url(//fonts.gstatic.com/ea/nanumgothic/v5/NanumGothic-ExtraBold.ttf) format('truetype'); 202010 */
+}
+/* reset */
+
+html {width:100%; height:100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+* {/* -webkit-appearance:none; */ -webkit-border-radius:0;}
+body {margin:0; font-size:12px; /* 기본폰트 사이즈 */ font-family:'pretendard','Noto Sans KR','Roboto',-apple-system,BlinkMacSystemFont,helvetica,Apple SD Gothic Neo,sans-serif; color:#000; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; -webkit-font-smoothing:subpixel-antialiased; line-height:1.5;}
+article,aside,details,figcaption,figure,
+footer,header,hgroup,main,menu,nav,section,summary {display: block; overflow-x:hidden;}/* 202010 */
+header {overflow-x:visible;}
+audio,canvas,progress,video { display: inline-block; vertical-align: baseline;}
+audio:not([controls]) { display:none;height: 0;}
+[hidden],template { display: none;}
+a {background-color: transparent; text-decoration: none;}
+a:active,a:hover {outline:0; text-decoration: none;}
+abbr[title] { border-bottom: 1px dotted;}
+b,strong {font-weight: bold;}
+dfn {font-style: italic;}
+h1 {font-size: 2em; margin: 0.67em 0; text-decoration:none;}
+mark { background: #ff0; color: #000;}
+small {font-size: 80%;}
+sub,sup {font-size:75%;line-height:0; position: relative; vertical-align: baseline;}
+sup {top: -0.5em;}
+sub {bottom: -0.25em;}
+img {border: 0;}
+svg:not(:root) {overflow: hidden;}
+figure {margin: 1em 40px;}
+hr {box-sizing: content-box;height:0;}
+pre {overflow: auto;}
+code, kbd, pre, samp {font-family: monospace, monospace; font-size: 1em;}
+button, input, optgroup,
+select, textarea { color: inherit; font: inherit; margin: 0;}
+button { overflow: visible; outline:none}
+button, select { text-transform: none; }
+button, html input[type="button"], input[type="reset"], input[type="submit"] { -webkit-appearance: button; cursor: pointer; }
+button[disabled], html input[disabled] { cursor: default; }
+button::-moz-focus-inner, input::-moz-focus-inner {border: 0; padding: 0;}
+input { line-height: normal; }
+input[type="checkbox"], input[type="radio"] { box-sizing: border-box; padding: 0; }
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {height: auto;}
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration { -webkit-appearance: none;}
+fieldset { border:none; margin: 0; /*padding: 0.35em 0.625em 0.75em;*/ padding:0;}
+legend {border:0; padding:0;}
+textarea {overflow: auto;}
+optgroup {font-weight: bold;}
+table {border-collapse: collapse; border-spacing: 0;}
+td,th {padding:0;}
+dl, dt, dd, ol, ul, li, span, h1, h2, h3, h4, h5, h6, p { margin:0; padding:0;}
+ol, ul {list-style: none;}
+a, img, input, select, textarea {color:#000;}
+a,area {blr:expression(this.onFocus=this.blur())}
+:focus {-moz-outline-style: none;}
+blockquote:before, blockquote:after, q:before, q:after {content: ''; content: none;}
+input:focus {outline:none;}
+form {margin:0;}
+.elp{display:block;overflow:hidden;width:100%;white-space:nowrap;text-overflow:ellipsis}
+.js-smart-img{width:calc(100% + 30px);}/* 2022-01-11 */
+.w_custom .js-smart-img {}
+.relative{
+	position: relative;
+}
+.mu_wrap{
+	padding: 0 15px;
+}
+
+.pc-only {display:none;}
+
+	/* 메인 최근 본 상품 202010 */
+		.recen_goods {border-bottom:11px solid #e8e8e8; padding:20px; min-height:30px; box-sizing: content-box;}
+		.recen_goods > strong {font-size:16px; font-weight:500; color:#222; float:left; font-family:'Noto Sans KR'; vertical-align:middle; letter-spacing:-1px;}
+		.recen_goods > .btn_main_more {color:#777; font-size:11.5px; float:right; display:inline-block; margin-top:5px; letter-spacing:-1px; border:1px solid #e1e1e1; padding:3px 10px 1px; border-radius:15px;}
+		.recen_goods .recen_goods_deal::before {content:''; display:block; clear:both;}
+		.recen_goods .goods_prd_item {padding:10px 0 !important; list-style:none;}
+		.recen_goods .goods_prd_item::after {content:''; display:block; clear:both;}
+		.recen_goods .goods_prd_item .goods_prd_img {width:22% !important; float:left; margin-right:4%;}
+		.recen_goods .goods_prd_item .goods_prd_img .img_box .img > img {border-radius:10px; width:100%;}
+		.recen_goods .goods_prd_item .goods_prd_content {width:74% !important; display:inline-block;}
+		.recen_goods .goods_prd_item .goods_prd_content .goods_list_info {height:66px; overflow:hidden; margin-top:5px;}
+		.recen_goods .goods_prd_item .goods_prd_content .goods_info_list .prd_name {font-size:12.5px; height:17px; white-space:nowrap;}
+		.recen_goods .goods_prd_item .goods_prd_content .goods_info_list li.price {font-size:18px; display:block !important;}
+		.recen_goods .goods_prd_item .goods_prd_content .goods_info_list li.MTS_stock {display:none;}
+		.recen_goods .timesale_img, .recen_goods .goods_prd_icon {display:none;}
+		.recen_goods .fixed_price {font-size:12px; color:#999;}
+		.recen_goods .price {font-family:Roboto; font-weight:500; font-size:16px !important; color:#272222;}

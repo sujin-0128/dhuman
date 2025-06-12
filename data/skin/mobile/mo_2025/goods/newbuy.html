@@ -1,0 +1,71 @@
+{*** 첫구매 혜택 | goods/newbuy.html ***}
+{ # header }
+<!-- 첫구매 혜택 2022-01-12 -->
+<section id="contents_wrap" class="content">
+	<div class="sub_bn"><!--{ @dataBanner('3570692687') }-->{.tag}<!--{ / }--></div>
+	<div class="main_bnr_pr w_custom sub_list">
+		<h2>첫구매 패키지</h2>
+		{=includeWidget('goods/_goods_display_main.html','sno','60')}
+	</div>
+	<div class="main_bnr_pr w_custom sub_list ">
+		<h2>100원 딜</h2>
+		{=includeWidget('goods/_goods_display_main.html','sno','112')}
+	</div>
+</section>
+{ # footer }
+
+<!-- 레이어팝업 추가 2021-07-27 -->
+{*** 기본 고정 레이어 팝업창 | main/html.php?htmid=popup/layer.htm ***}
+{*
+<style type="text/css">
+#popup5_form .box .view {background: {=data.mobilePopupBgColor}; width:{=(mobilePopupWidth)}{=data.mobileSizeTypeW}; height:{=(mobilePopupHeight)}{=data.mobileSizeTypeH}; overflow: hidden;}
+#popup5_form .check {background-color:{=todayUnSee.todayUnSeeBgColor}; color:{=todayUnSee.todayUnSeeFontColor}; text-align:{=todayUnSee.todayUnSeeAlign};}
+#popup5_form .check .form-element .check_s {background-color:{=todayUnSee.todayUnSeeBgColor};}
+<!--{ ? data.mobileContentImgFl == 'y'}-->
+#popup5_form .box .view img {max-width:{=data.mobilePopupSizeW}{=data.mobileSizeTypeW};}
+#popup5_form .box .view {overflow-y:auto;}
+<!--{ / }-->
+
+.sys_pop {position:fixed; bottom:{?DhumanApp=='off'}53px{:}0px{/}; z-index:1001;}
+.sys_pop .box { position:relative; padding:0;}/* 2022-01-13 */
+.sys_pop .box .close {display:block; position:absolute; top:13px; right:15px; width:18px; height:18px; text-indent:-9999px; background:url('../img/icon/layer_close.png') no-repeat left top; border:none; opacity:0.8;}/* 2022-01-13 */
+.sys_pop .box .view {line-height:0;}
+.sys_pop .box .view a > img {border-radius:7px 7px 0 0;}/* 2022-01-13 */
+.sys_pop .box .check {padding:2px 10px 8px 0; text-align:right; line-height:0; color:#fff; letter-spacing:-1px; position:absolute; right:0; bottom:0;}/* 2022-01-13 */
+.sys_pop .box .check .inp_chk > input[type=checkbox] {width:16px; height:16px;}
+.sys_pop .box .check label  padding:0 22px 0 0; background-position:right 2px;}
+.sys_pop .box .check input  left:auto; right:1px; top:1px; }
+</style>
+<div id="popup5_form" class="sys_pop" { ? DhumanApp == "on" }style="display:none;"{ / }><!-- 2022-01-13 -->
+    <div class="box">
+        <div class="view" >
+			{ ? OS == 'Android' }
+				<a href="https://play.google.com/store/apps/details?id=com.goobne.dhuman&hl=ko" target="_blank">
+			{ : OS == 'iPhone' }
+				<a href="https://apps.apple.com/kr/app/id1494657614" target="_blank">
+			{ : }
+				<a href="#">
+			{ / }
+            <img src="../img/banner/popup_app_download.jpg" width="100%" /></a><!--{=viewPopupContent}-->
+			<!-- 2022-01-13 ios 앱스토어 url : https://apps.apple.com/kr/app/id1494657614, 디바이스 체크 후 android or ios url로 랜딩, 앱 경우 팝업 노출X -->
+        </div>
+        
+        <div class="check">
+			<span class="inp_chk ">
+				{=__('오늘 하루 보이지 않음')}
+				<input type="checkbox" id="todayUnSee" onclick="gd_popup_cookie('popup5_form', this);">
+			</span>
+        </div>
+       
+        <button type="button" class="close" title="{=__('닫기')}" onclick="$('#popup5_form').hide();">{=__('닫기')}</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	if($.cookie('popup5_form') == 'true'){
+		$('#popup5_form').hide();
+	}
+});
+</script>
+*}

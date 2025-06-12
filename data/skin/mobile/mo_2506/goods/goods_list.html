@@ -1,0 +1,457 @@
+{*** 상품리스트 | goods/goods_list.php ***}
+{#header}
+<!-- Groobee Selector Script -->
+<div class="groobeeCategory" style="display:none">
+<span class="groobeeCategoryName">{=goodsCategoryList[cateCd]['cateNm']}</span>
+    <span class="groobeeCategoryCode">{=cateCd}</span>
+</div>
+<!-- End of Groobee Selector Script -->
+
+<script type='text/javascript'>
+ex2cts.push('track', 'product');
+</script>
+
+
+<!-- ddc_sel  -->
+<!-- 카테고리 네비 202010 -->
+
+<div class="ctg_nav">
+	<a href="javascript:window.history.back();" class="ctg_nav_list">히스토리</a>
+	<div class="ctg_nav_nm">
+		<a onclick="myFunction()" class="dropbtn ctg_nav_sel">
+		<!--{ ? gPageName }-->
+		{ ? gPageName }{=gPageName}{:}{=layout.page_name}{/}
+		<!--{:}-->
+		{? cateSet && cateType=='cate'}{cateSet}{/}
+		<!--{/}-->
+		</a>
+		<button onclick="myFunction()" class="dropbtn ctg_nav_btn">1depth</button><!-- 1depth 전체 메뉴 드롭다운 -->	
+	</div>
+</div>
+<!-- 드롭다운 메뉴 -->
+	<div id="myDropdown" class="dropdown-content">
+		<!-- 202305 -->
+		<!--{ ? cateType == 'cate' }-->
+		{ cateSet2}
+		<!--{ : }-->
+		<!-- 202304 랜딩오류로 카테고리 임의 생성 -->
+		<a href="/goods/goods_list.php?brandCd=001">듀먼</a>
+		<a href="/goods/goods_list.php?brandCd=002">하이독</a>
+		<a href="/goods/goods_list.php?brandCd=004">바비숑</a>
+		<a href="/goods/goods_list.php?brandCd=005">쇼띠에</a>
+		<!--<a href="/goods/goods_list.php?brandCd=006">SH컴퍼니</a>-->
+		<a href="/goods/goods_list.php?brandCd=007">로띠에</a>
+		<a href="/goods/goods_list.php?brandCd=008">링펫</a>
+		<a href="/goods/goods_list.php?brandCd=009">에코펫위드</a>
+		<a href="/goods/goods_list.php?brandCd=010">TS</a>
+		<!--{ / }-->
+	</div>
+
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+<div class="goods_list">
+	<!-- 설문조사 배너 -->{=pollViewBanner()}<!-- 설문조사 배너 -->
+
+	<!-- 간식 상단 배너 202504 -->
+	<!--{ ? substr(cateCd, 0 ,3) == "020" }-->
+	<!--{ @dataBanner('3470246327') }-->{.tag}<!--{ / }-->
+	<!--{ / }-->
+	
+	<!-- gd5 상단 하위 카테고리 --> 
+	<!--{ ? themeInfo.cateHtml1Mobile }--><div { ? substr(cateCd, 0 ,3) == "020" || substr(cateCd, 0 ,3) == "001" || substr(cateCd, 0 ,3) == "024" }style="display:none;"{/}>{=stripslashes(str_replace('&nbsp;', ' ', themeInfo.cateHtml1Mobile))}</div><!--{ / }-->
+
+	<!--{ ? naviDisplay.naviUse =='y' }-->
+
+	<!-- 202504 카테고리 스타일 변경-->
+	<div class="new_goods_list_category categorySwiper">
+		<!--{ ? substr(cateCd, 0 ,3) == "001" }-->
+		<ul class="new_goods_cate_list swiper-wrapper">
+			<li class="swiper-slide <!--{ ? cateCd == "001" }-->selected<!--{ / }-->" style="display:none;" >
+				<a href="/goods/goods_list.php?cateCd=001">
+					<span class="sub_ctg_img"><img alt="전체" src="/img/mo/sub_ctg_all.png"></span>
+					<span class="sub_ctg_txt">전체</span>
+				</a>
+			</li>
+			<li   class="swiper-slide <!--{ ? substr(cateCd, 0 ,6) == "001007" }-->selected <!--{ / }-->" >
+				<a href="/goods/goods_list.php?cateCd=001007">
+					<span class="sub_ctg_img"><img alt="자연화식" src="/img/mo/sub_ctg_001.png"></span>
+					<span class="sub_ctg_txt">자연화식</span>
+				</a>
+			</li>
+			<li  class="swiper-slide <!--{ ? cateCd == "001013" }-->selected<!--{ / }-->" >
+				<a href="/goods/goods_list.php?cateCd=001013">
+					<span class="sub_ctg_img"><img alt="케어플러스" src="/img/mo/sub_ctg_001013.png"></span>
+					<span class="sub_ctg_txt">케어플러스</span>
+				</a>
+			</li>
+			<li class="swiper-slide <!--{ ? substr(cateCd, 0 ,6) == "001014" }-->selected<!--{ / }-->">
+				<a href="/goods/goods_list.php?cateCd=001014">
+					<span class="sub_ctg_img"><img alt="간식과함께" src="/img/mo/sub_ctg_001014.png"></span>
+					<span class="sub_ctg_txt">간식과함께</span>
+				</a>
+			</li>
+		</ul>
+		<!--{ / }-->
+
+		<!--{ ? substr(cateCd, 0 ,3) == "020" || substr(cateCd, 0 ,3) == "024"}-->
+		<ul class="new_goods_cate_list swiper-wrapper" >
+			<li class="swiper-slide <!--{ ? cateCd == "020" }-->selected<!--{ / }-->" style="display:none;">
+				<a href="/goods/goods_list.php?cateCd=020">
+					<span class="sub_ctg_img"><img alt="전체" src="/img/mo/sub_ctg_all.png"></span>
+					<span class="sub_ctg_txt">전체</span>
+				</a>
+			</li>
+			<li class="swiper-slide <!--{ ? cateCd == "024" }-->selected<!--{ / }-->">
+				<a href="/goods/goods_list.php?cateCd=024">
+					<span class="sub_ctg_img"><img alt="이달의 할인" src="/img/mo/sub_ctg_sale.png"></span>
+					<span class="sub_ctg_txt">이달의 할인</span>
+				</a>
+			</li>
+			<li class="swiper-slide <!--{ ? cateCd == "020009" }-->selected <!--{ / }-->" >
+				<a href="/goods/goods_list.php?cateCd=020009">
+					<span class="sub_ctg_img"><img alt="수제간식" src="/img/mo/sub_ctg_020.png"></span>
+					<span class="sub_ctg_txt">수제간식</span>
+				</a>
+			</li>
+			<li class="swiper-slide <!--{ ? cateCd == "020010" }-->selected<!--{ / }-->" >
+				<a href="/goods/goods_list.php?cateCd=020010">
+					<span class="sub_ctg_img"><img alt="육포" src="/img/mo/sub_ctg_020001.png"></span>
+					<span class="sub_ctg_txt">육포</span>
+				</a>
+			</li>
+			</li>
+			<li class="swiper-slide <!--{ ? cateCd == "020003" }--> selected <!--{ / }-->" >
+				<a href="/goods/goods_list.php?cateCd=020003">
+					<span class="sub_ctg_img"><img alt="보양식" src="/img/mo/sub_ctg_020003.png"></span>
+					<span class="sub_ctg_txt">보양식</span>
+				</a>
+			</li>
+			<li class="swiper-slide <!--{ ? cateCd == "020002" }-->selected <!--{ / }-->">
+				<a href="/goods/goods_list.php?cateCd=020002">
+					<span class="sub_ctg_img"><img alt="펫밀크/무스" src="/img/mo/sub_ctg_020002.png"></span>
+					<span class="sub_ctg_txt">펫밀크/무스</span>
+				</a>
+			</li>
+			<li class="swiper-slide <!--{ ? cateCd == "020005" }-->selected <!--{ / }-->" >
+				<a href="/goods/goods_list.php?cateCd=020005">
+					<span class="sub_ctg_img"><img alt="껌" src="/img/mo/sub_ctg_020005.png"></span>
+					<span class="sub_ctg_txt">껌</span>
+				</a>
+			</li>
+			<li class="swiper-slide <!--{ ? cateCd == "020004" }-->selected <!--{ / }-->" >
+				<a href="/goods/goods_list.php?cateCd=020004">
+					<span class="sub_ctg_img"><img alt="트릿" src="/img/mo/sub_ctg_020004.png"></span>
+					<span class="sub_ctg_txt">트릿</span>
+				</a>
+			</li>
+			<li class="swiper-slide <!--{ ? cateCd == "020008" }-->selected<!--{ / }-->" >
+				<a href="/goods/goods_list.php?cateCd=020008">
+					<span class="sub_ctg_img"><img alt="유산균" src="/img/mo/sub_ctg_020008001.png"></span>
+					<span class="sub_ctg_txt">유산균</span>
+				</a>
+			</li>
+		</ul>
+		<!--{ / }-->
+	</div>
+	<style>
+		.new_goods_list_category {padding: 0 15px; box-sizing:border-box; overflow:hidden;}
+		.new_goods_list_category > .new_goods_cate_list { display:flex; /*flex-wrap: wrap; overflow-x: hidden;*/  justify-content: flex-start; align-items: flex-start; width: calc(100% + 15px); min-height: 0; margin: 10px 0 5px;}
+		.new_goods_list_category > .new_goods_cate_list li {width: 25%; box-sizing: border-box; text-align: center; margin: 5px 0;  padding: 0 15px 0 0; position:relative;}
+		.new_goods_list_category > .new_goods_cate_list li > a {font-size: 11px; color:#555; display:flex; flex-flow: column;}
+		
+		.new_goods_list_category > .new_goods_cate_list li > a .sub_ctg_img {display:inline-block; position:relative; width: 100%; height: auto; }
+		.new_goods_list_category > .new_goods_cate_list li.selected > a .sub_ctg_img:after {content: ''; width: 100%; height: 100%;  border: solid 1px #777; border-color:#109ea8; border-radius: 100%; position:absolute; top: 50%; left: 51%; transform:translate(-50%, -50%); }
+		.new_goods_list_category > .new_goods_cate_list li > a .sub_ctg_txt {font-size: 12px; color: #010101; line-height: 1; margin-top: 10px; display:inline-block;}
+		.new_goods_list_category > .new_goods_cate_list li.selected > a .sub_ctg_txt {color: #109ea8;}
+		/*2차카테고리*/
+		#contents_wrap .goods_list .goods_list_category {margin-top: 20px;}
+		#contents_wrap .goods_list .goods_list_category ul {border-bottom: 1px solid #eee; padding: 0 20px; box-sizing:border-box;}
+		#contents_wrap .goods_list .goods_list_category ul li {border:none; width: auto; min-width: 20%;}
+		#contents_wrap .goods_list .goods_list_category ul li a {font-size: 13px;}
+		#contents_wrap .goods_list .goods_list_category ul li.selected {background:none;}
+		#contents_wrap .goods_list .goods_list_category ul li.selected a {color:#000;}
+
+		#contents_wrap .goods_list_category .parent_category, .goods_list_category .current_category {display:none;}
+
+		/**/
+		{ ? substr(cateCd, 0 ,9) === "001014001" || substr(cateCd, 0 ,9) === "001014002"}
+		#contents_wrap .goods_list .goods_list_category .current_category {display:block; border-bottom:none;}
+
+		{ / }
+		{ ? cateCd === "001014001001" || cateCd === "001014001002" || cateCd === "001014002001" || cateCd === "001014002002"}
+		#contents_wrap .goods_list .goods_list_category .current_category {display:none;}
+		#contents_wrap .goods_list .goods_list_category .parent_category {display:block; border-bottom:none;}
+		{ / }
+	</style>
+	<script type="text/javascript">
+		
+		$(function(){
+			new Swiper('.categorySwiper', {
+				slidesPerView : 4.3,
+			});
+		});
+	</script>
+
+	<!--{ ? substr(cateCd, 0 ,3) !== "020" && cateCd !== "001" && cateCd !== "001013" &&cateCd !== "020" && cateCd !== "020003" && cateCd !== "020005" && cateCd !== "020008"}-->
+	<div class="goods_list_category" style="display:none;"> <!-- 20250418 텍스트 카테고리 원본-->
+		<ul>
+			<!--{ @ goodsDataSubCategory }-->
+			<li {.style} <!--{ ? cateCd == .cateCd }-->class="selected" <!--{ / }-->><a href="?{cateType}Cd={.cateCd}" >{.cateNm} <!--{ ? naviDisplay.naviCount =='y' }--><span>({.goodsCnt+0})</span> <!--{ / }--></a></li>f
+			<!--{ / }-->
+		</ul>
+	</div>
+	<!--{ / }-->
+	<!-- // 202504 카테고리 스타일 변경-->
+	
+	
+	<div class="goods_list_category" style=""> <!-- 20250418 텍스트 카테고리 추가수정 -->
+		{**현재 카테고리**}
+		<ul class="current_category" >
+			<!--{ @ goodsCategoryList.data }-->
+				<li {.style} <!--{ ? cateCd == .key_ }-->class="selected" <!--{ / }-->><a href="?cateCd={.key_}">{.value_}</a></li>
+			<!--{ / }-->
+		</ul>
+		{**부모 카테고리**}
+		<ul class="parent_category" >
+			<!--{ @ parentCategoryList.data }-->
+				<li <!--{ ? substr(cateCd, 0 ,9) === substr(.key_, 0 ,9) }-->class="selected"<!--{ / }-->><a href="?cateCd={.key_}">{.value_}</a></li>
+			<!--{ / }-->
+		</ul>
+		<!--{ ? substr(cateCd, 0 ,3) !== "020" && cateCd !== "001" && cateCd !== "020"  && cateCd !== "002" && cateCd !== "024"}-->
+		<ul>
+			<!--{ @ goodsDataSubCategory }-->
+			<li {.style} <!--{ ? cateCd == .cateCd }-->class="selected" <!--{ / }-->><a href="?{cateType}Cd={.cateCd}" >{.cateNm} <!--{ ? naviDisplay.naviCount =='y' }--><span>({.goodsCnt+0})</span> <!--{ / }--></a></li>
+			<!--{ / }-->
+		</ul>
+		<!--{ / }-->
+	</div>
+	
+	<!--{ ? substr(cateCd, 0 ,3) !== "020" || substr(cateCd, 0 ,3) !== "024" }-->
+	<div>
+	{=includeWidget('proc/_slider_banner.html', 'bannerCode', '1947548384')}
+	</div>
+	<!--{ / }-->
+	
+
+	<!--보양/토핑 - 보양식 탑 배너-->
+	<!--{ ? cateCd=='013001' }-->
+	<div class="goods_list_top_banner">
+		<!--{ @dataBanner('68715599') }-->{.tag}<!--{ / }-->
+	</div>
+	<!--{ / }-->
+
+	<!--{ ? substr(cateCd, 0 ,3)=='003' }-->
+	<style>
+		.goods_list .goods_list_category ul li:nth-child(3) { width: 100% !important; }
+		.goods_list .goods_list_category ul li:nth-child(3) a img { border-radius: 5px; }
+	</style>
+	<!--{ / }-->
+
+	<!--{ / }-->
+	<!--{ ? themeInfo.recomDisplayMobileFl == 'y'  && widgetGoodsList}-->
+	<div class="goods_list_recom">
+		<!--{ ? themeInfo.cateHtml2Mobile }-->
+		<div class="user_tune">{=stripslashes(str_replace('&nbsp;', ' ', themeInfo.cateHtml2Mobile))}</div>
+		<!--{ / }-->
+
+		<h3>{=__('추천상품')}
+			<div class="more_btn_box">
+				<a class="recommend_more_btn" href="../goods/goods_recom.php?{cateType}Cd={=cateCd}">{=__('더보기')}</a>
+			</div>
+		</h3>
+		<!-- 추천상품 -->
+		<ul class="recommend_prd_list">
+			{=includeWidget('goods/_goods_display.html')}
+		</ul>
+		<!-- 추천상품 -->
+	</div>
+	<!--{ / }-->
+	<div id="goodslist" class="goods_list_content">
+		<!--{ ? themeInfo.cateHtml3Mobile }--><div>{=stripslashes(str_replace('&nbsp;', ' ', themeInfo.cateHtml3Mobile))}</div><!--{ / }-->
+		<div class="goods_top_box">
+			<div class="goods_arr_box">
+				<div class="goods_total"><strong>{=number_format(gd_isset(page->recode['total']))}</strong>개의 상품</div><!-- 전체상품 수 노출 202010 -->
+				<div class="goods_sort">
+					<div class="inp_sel">
+						<select name="goods_sort" onchange="gd_get_list(1,true);">
+							<option value="">{=__('상품정렬')}</option>
+							<option value="date">{=__('등록순')}</option>
+							<option value="price_asc">{=__('낮은가격순')}</option>
+							<option value="price_dsc">{=__('높은가격순')}</option>
+						</select>
+					</div>
+				</div>
+				<div class="goods_view_type">
+					<input type="hidden" name="displayType" value="{themeInfo.displayType}" />
+					<ul>
+						<li><button class="<!--{ ? themeInfo.displayType =='02' }-->on<!--{ / }-->" data-key="02" >list</button></li>
+						<li><button class="<!--{ ? themeInfo.displayType =='09' }-->on<!--{ / }-->" data-key="09">gallery_type1</button></li>
+						<li><button class="<!--{ ? themeInfo.displayType =='01' }-->on<!--{ / }-->" data-key="01">gallery_type2</button></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="goods_list_box">
+			<ul class="goods_product_list">{ # goodsTemplate }</ul>
+			<div class="btn_box">
+				<button type="button" class="more_btn" data-page="2" >{=__('더보기')}</button>
+			</div>
+			<div class="loading_img"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	<!--
+	<!--{ ? cateType == 'cate' }-->
+	var keyValue = 'C{gGlobal.locale}{cateCd}';
+	<!--{ : }-->
+	var keyValue = 'B{gGlobal.locale}{brandCd}';
+	<!--{ / }-->
+
+	var key = {
+		html: 'html' + keyValue,
+		page: 'page' + keyValue,
+		viewType: 'viewType' + keyValue,
+		sortType: 'sortType' + keyValue,
+		endFlag: 'endflag' + keyValue,
+	};
+
+	var gdStorage = gd_load_session(key.html);
+	var gdPage = gd_load_session(key.page);
+	var gdViewType = gd_load_session(key.viewType);
+	var gdSortType = gd_load_session(key.sortType);
+	var endFlag = gd_load_session(key.endFlag);
+
+	$(document).ready(function(){
+		if (gdStorage) {
+			$(".goods_product_list").html(gdStorage);
+			$('.btn_box button').data('page',parseInt(gdPage)+1);
+			$('.goods_view_type ul li button [data-key!="' + gdViewType + '"]').removeClass('on');
+			$('.goods_view_type ul li button [data-key="' + gdViewType + '"]').addClass('on');
+			$('input[name="displayType"]').val(gdViewType);
+			$('select[name="goods_sort"]>option[value="' + gdSortType + '"]').prop('selected', true);
+		}
+		$('.btn_box button.more_btn').on('click', function(e){
+			gd_get_list($(this).data('page'),false);
+		});
+
+		$('.goods_view_type ul li').on('click', function(e){
+			$(".goods_view_type ul li button").removeClass('on');
+			$('input[name="displayType"]').val($(this).find('button').data('key'));
+			$(this).find('button').addClass('on');
+			gd_get_list('1',true);
+    });
+
+		$(document).on('click','.btn_alert_login',function (e){
+			alert("{=__('로그인하셔야 본 서비스를 이용하실 수 있습니다.')}");
+			document.location.href = "../member/login.php";
+			return false;
+		});
+
+		$('body').on('click', '.js_option_layer', function(e){
+			var params = {
+				type : $(this).data('type'),
+				sno: $(this).data('sno'),
+				goodsNo: $(this).data('goodsno')
+			};
+
+			$('#popupOption').modal({
+				remote: '../goods/layer_option.php',
+				cache: false,
+				params: params,
+				type : 'POST',
+				show: true
+			});
+		});
+
+	});
+
+	function before_more_btn() {
+        $('.goods_product_list').on('click', function(){return false;})
+        $('.btn_box button').hide();
+        $('.loading_img').append('<img src="../img/icon/icon_loading.gif" alt="{=__(\'로딩 중\')}">');
+	}
+
+	function after_more_btn() {
+        $('.goods_product_list').off('click');
+        $('.btn_box button').show();
+        $('.loading_img img').remove();
+	}
+
+	var endflag = false;
+	function gd_get_list(page, reloadFl){
+		var displayType = $('input[name="displayType"]').val();
+		var sort =  $('select[name="goods_sort"]').val();
+
+		$.ajax({
+			method		: 'GET',
+			url			: './goods_list.php',
+			data		: {
+			    'mode' : 'data',
+				'cateCd' : '{cateCd}',
+				'brandCd' : '{brandCd}',
+				'cateType' : '{cateType}',
+				'displayType' : displayType,
+				'page' : page,
+				'sort' : sort
+			},
+			beforeSend	: function(){
+                before_more_btn();
+			},
+			success	: function(data){
+                after_more_btn();
+
+                if($(data).filter("li.no_bx").length) {
+                    if(page =='1' && endflag == false) {
+                        $(".goods_product_list").append(data);
+                        gd_save_session(key.endFlag, true);
+                        gd_save_session(key.html, $('.goods_product_list').html());
+                        endflag = true;
+                        if ($(data).find('.goods_list_info').length < {themeInfo.lineCnt * themeInfo.rowCnt}) {
+                            $('.more_btn').hide();
+                        }
+                    } else {
+                        alert("{=__('더이상 상품이 없습니다')}");
+                        $('.more_btn').hide();
+                    }
+
+                } else {
+                    if(reloadFl === true) $(".goods_product_list").html(data);
+                    else  $(".goods_product_list").append(data);
+
+                    $('.btn_box button').data('page',parseInt(page)+1);
+                    gd_save_session(key.html, $('.goods_product_list').html());
+                    gd_save_session(key.page, parseInt(page));
+                    if ($(data).find('.goods_list_info').length < {themeInfo.lineCnt * themeInfo.rowCnt}) {
+                        $('.more_btn').hide();
+                    }
+                }
+			}
+		});
+		gd_save_session(key.sortType, sort);
+		gd_save_session(key.viewType, displayType);
+	}
+
+	//-->
+</script>
+
+{#footer}

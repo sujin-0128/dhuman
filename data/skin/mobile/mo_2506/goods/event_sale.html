@@ -1,0 +1,54 @@
+{*** 기획전 | goods/event_sale.php ***}
+{ # header }
+<style>
+	{ ? sno == '473' // CSS }
+		.page_navigator{display:none;}
+		.mu_wrap {padding:0 15px 15px;}
+		.dh_tab_bar {display:none !important;}
+		#footer {display:none;}
+		.header_top_popup {display:none;}
+		.sub_top {position:relative; display:block !important;}
+		.header_box {display:none !important;}
+		#container {padding-top:0;}
+		.lnb_box {display:none;}
+		.membership-mall {display:none !important;}
+		.mu.top_search {display:none !important;}
+		.right_menu .login_btn {display:block !important;}
+		#contents_wrap ._goods_display_main .t2 {/*flex-flow:column nowrap;*/ row-gap: 15px;}
+		#contents_wrap ._goods_display_main .t2 > li {/*width:100% !important;*/ width: 48% !important;}
+		#contents_wrap ._goods_display_main .t2 > li:nth-child(1) .goods_prd_content .goods_info_list .star:after {content:'스타터를 위한 추천 SET❤'; display:block; margin:0 0 8px; color:#109EA8; font-weight:500; font-size:14px; line-height:1;}
+		#contents_wrap ._goods_display_main .t2 > li:nth-child(2) .goods_prd_content .goods_info_list .star:after {content:'판매량 1위 꿀조합 세트👍'; display:block; margin:0 0 8px; color:#109EA8; font-weight:500; font-size:14px; line-height:1;}
+		#contents_wrap ._goods_display_main .t2 > li:nth-child(3) .goods_prd_content .goods_info_list .star:after {content:"믿고 사는 듀먼 MD's PICK😋"; display:block; margin:0 0 8px; color:#109EA8; font-weight:500; font-size:14px; line-height:1;}
+		#contents_wrap ._goods_display_main .t2 > li:nth-child(4) .goods_prd_content .goods_info_list .star:after {content:"단골손님이 찾는 베스트 패키지👑"; display:block; margin:0 0 8px; color:#109EA8; font-weight:500; font-size:14px; line-height:1;}
+		#contents_wrap ._goods_display_main .t2 .goods_prd_item2_box {display:flex; /*gap:28px; align-items:center;*/  flex-flow: column nowrap;}
+		#contents_wrap ._goods_display_main .t2 .goods_prd_img {/*max-width:150px;*/ min-height:150px; }
+		#contents_wrap ._goods_display_main .t2 .goods_prd_content {padding:0; }
+		
+		#contents_wrap .goods_prd_item2 .goods_prd_content .goods_info_list li.price.price_sale{justify-content:flex-start; gap: 5px;}
+		#contents_wrap .goods_prd_item2 .goods_prd_content .goods_info_list li.price.price_sale .first_price {font-size: 16px; color: #000; line-height: 1;}
+		#contents_wrap .goods_prd_item2 .goods_prd_content .goods_info_list li.price.price_sale .sale_price {color: #f00; }
+	{ / }
+
+
+</style>
+<section id="main" class="content">
+	
+
+	<!--{ ? data.displayCategory == 'g' }-->
+		<!-- -->
+		<div class="w_custom">{=includeWidget('goods/_goods_display_group_main.html','sno',sno,'isMobile',isMobile,'viewType','all')}</div><!-- 2022-01-11 -->
+		<!-- -->
+	<!--{ : }-->
+		<!-- -->
+		<div class="w_custom">{=includeWidget('goods/_goods_display_main.html','sno',sno,'isMobile',isMobile,'viewType','all')}</div><!-- 2022-01-11 -->
+		<!--  -->
+	<!--{ / }-->
+	{ ? sno == '473' }
+	<div style="text-align: center;" align="center">
+		<img src="/data/editor/promotion/250407/eventsale_02_250328.jpg" title="eventsale_02_250328.jpg" class="js-smart-img">
+	</div>
+	{ / }
+</section>
+
+{ # footer }
+

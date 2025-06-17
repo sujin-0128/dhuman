@@ -154,6 +154,31 @@ class CartController extends \Controller\Mobile\Controller
             $optionPriceConf = gd_policy('goods.display');
             $this->setData('optionPriceFl', gd_isset($optionPriceConf['optionPriceFl'], 'y')); // 상품 옵션가 표시설정
 
+            $ip = trim(Request::server()->get('REMOTE_ADDR'));
+            if ($ip == '220.118.145.49') {
+                $dpx = \App::load('\\Component\\Designpix\\Dpx');
+                $getData = $dpx->getBundleInfoForCart($goodsNo);
+                // gd_debug($getData);
+                $showBundleDiscountLayer = 'n';
+
+                if(count($getData)>0){
+                    $bundleType =  $getData['type'];
+                    $goodsNo = $getData['groupData']['goodsNo'];
+                    $groupCd = $getData['groupData']['groupCd'];
+                    $showCartBtnForBundle = $getData['groupData']['showCartBtnForBundle'];
+
+                    // 메인상품만 있거나 혜택상품만 있고 장바구니에서 팝업노출 허용일때 
+                    if($bundleType != 'noMatchedBundle' && $showCartBtnForBundle == 'y'){
+                        $showBundleDiscountLayer = 'y';
+                    }
+                }
+
+                $this->setData('showBundleDiscountLayer', $showBundleDiscountLayer); // 결합할인 안내 레이어 노출여부
+                $this->setData('bundleType', $bundleType); // 결합할인 안내 레이어 노출여부
+                $this->setData('goodsNo', $goodsNo); // 결합할인 안내 레이어 노출여부
+                $this->setData('groupCd', $groupCd); // 결합할인 안내 레이어 노출여부
+            }
+
             // 장바구니 객체에서 계산된 상품정보
             $this->setData('cartCnt', $cart->cartCnt); // 장바구니 수량
             $this->setData('shoppingUrl', $cart->shoppingUrl); // 쇼핑 계속하기 URL

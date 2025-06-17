@@ -1,0 +1,17 @@
+{*** 결합할인 혜택상품 장바구니시 결합할인 안내 | goods/layer_bundle_discout_cart.php ***}
+{ ? currentPage == 'cart' }
+<span style="color: red; font-size: 15px; font-weight: bold;">구매할 수 없는 상품이 있어요.</span>
+{bannerHtml}
+<div class="btn_wish_bx shadow">
+	<ul class="btn_bx">
+		<li><a href="javascript:close_bundle_layer();"><button type="button" class="select_prd_today_del_btn">닫기</button></a></li>
+		<li><a href="{bannerLink}"><button type="button" class="today_cart_add_btn">상품 바로가기</button></a></li>
+	</ul>
+</div>
+{ : }
+{bannerHtml}
+<ul class="layerBtnWraps">
+	<li><a href="{bannerLink}">상품 더보기</a></li>
+	<li id="btnBundleCart"><a href="javascript:gd_goods_order('d');">장바구니 바로가기</a></li>
+</ul>
+{ / }

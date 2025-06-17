@@ -478,7 +478,11 @@
 				{ ?goodsView['goodsNo'] > 1000001187 && goodsView['goodsNo'] < 1000001194}<!--230926 듀먼 요청 특정 상품 텍스트 변경-->
 				<li class="mu_buy"><a href="#" class="detail_order_btn js_btn_add_order">{=__('옵션선택')}</a></li>
 				{ : }
+
+                { ?bundleType != 'discount' }
+                <!-- 결합할인 혜택 상품일 경우 바로구매 버튼 미노출출 -->
 				<li class="mu_buy"><a href="#" class="detail_order_btn js_btn_add_order">{=__('바로구매')}</a></li>
+                { / }
 				{ / }
 
 
@@ -935,6 +939,7 @@
 
 
         $('.js_btn_add_order').on('click', function(e){
+            
             gd_goods_order('d');
             return false;
         });
@@ -1606,30 +1611,20 @@
                 var ajaxUrl = '../mypage/wish_list_ps.php';
                 var target = $("#addWishLayer");
             } else {
-                <!--{ ? bundleType == 'main' &&  preCartBundlePopup == 'y' }-->
-                // console.log('bundleType :: {bundleType}');
-                // console.log('preCartBundlePopup :: {preCartBundlePopup}');
-                // var ajaxUrl = '../order/cart_ps.php';
-                // var target = $("#bundleDiscountCartLayer");
-                // if (window.showBundleGuideLayer) {
-                //     showBundleGuideLayer(function() {
-                //         target.removeClass('dn');
-                //         $('#layerDim').removeClass('dn');
-                //     });
-                // } else {
-                //     target.removeClass('dn');
-                //     $('#layerDim').removeClass('dn');
-                // }
-                // showBundleGuideLayer();
-                $('#layerDim').removeClass('dn');
-                $('#bundleGuideLayer').show();
-
-                <!--{ : }-->
+                <!--{ ? (bundleType == 'main' && preCartBundlePopup == 'y') || (bundleType == 'discount' && preCartBundlePopup == 'y') }-->
+                // 결합 할인 안내 레이어 
+                if($('#bundleGuideLayer').is(':visible') == false){
+                    showBundleGuideLayer('mainCart');
+                    return false;
+                }else{
+                    $('#bundleGuideLayer').hide();
+                }
+                <!--{ / }-->
                 var ajaxUrl = '../order/cart_ps.php';
                 var target = $("#addCartLayer");
                 {=fbCartScript}
                 {=customCartEventScript}
-                <!--{ / }-->
+                
                 
                 
             }
@@ -1667,8 +1662,8 @@
                         }
                     }
 					
-                    //target.removeClass('dn');
-                    // $('#layerDim').removeClass('dn');
+                    target.removeClass('dn');
+                    $('#layerDim').removeClass('dn');
                 },
                 error: function (data) {
                     if (!_.isUndefined(data.message)) {
@@ -1677,6 +1672,15 @@
                 }
             });
         } else {
+            <!--{ ? (bundleType == 'main' &&  showNoBundlePopup == 'y') }-->
+
+            // console.log('bundleGuideLayer ::'+$('#bundleGuideLayer').is(':visible'));
+
+            if($('#bundleGuideLayer').is(':visible') == false){
+                showBundleGuideLayer('mainBuy');
+                return false;
+            }
+            <!--{ / }-->
             $('#frmView').submit();
         }
     }

@@ -19,12 +19,12 @@ use Request;
 use Exception;
 
 /**
- * Class LayerBundleMainCartController
+ * Class LayerBundleMainBuyController
  *
  * @package Bundle\Controller\Mobile\Goods
  * @author  su
  */
-class LayerBundleMainCartController extends \Controller\Mobile\Controller
+class LayerBundleMainBuyController extends \Controller\Mobile\Controller
 {
     public $bannerPathDefault = 'img/banner';
 
@@ -40,16 +40,15 @@ class LayerBundleMainCartController extends \Controller\Mobile\Controller
         $currentPage = $postValue['currentPage'];
 
         $dpx = \App::load('\\Component\\Designpix\\Dpx');
-		$getData = $dpx->checkAllowNoBundleSale($postValue['goodsNo'], $postValue['groupCd']);
+		$getData = $dpx->checkAllowNoBundleSale($postValue['goodsNo']);
 
 
-
-        if($getData[0]['mainCartBanner']){
+        if($getData[0]['mainBuyBanner']){
             $designBanner = \App::load('\\Component\\Design\\DesignBanner');
             $bannerDeviceType = $this->getRootDirecotory();
             $skinName = \Globals::get('gSkin.' . $bannerDeviceType . 'SkinName');
 
-            $getBannerData = $dpx->getBundelBannerData($skinName,$getData[0]['mainCartBanner']);
+            $getBannerData = $dpx->getBundelBannerData($skinName,$getData[0]['mainBuyBanner']);
 
             if($getBannerData){
                 $bannerImagePath = $bannerDeviceType . DS . $skinName . DS . $this->bannerPathDefault . DS;

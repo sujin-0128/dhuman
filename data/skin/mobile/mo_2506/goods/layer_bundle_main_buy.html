@@ -1,4 +1,17 @@
 {*** 결합할인 메인상품 바로구매시 결합할인 안내 | goods/layer_bundle_main_buy.php ***}
-{ # header }
+{bannerHtml}
+{ ? currentPage == 'cart' }
+<div class="btn_wish_bx shadow">
+	<ul class="btn_bx">
+		<li><a href="{bannerLink}"><button type="button" class="select_prd_today_del_btn">상품 바로가기</button></a></li>
+		<li><a href="javascript:gd_cart_process('orderSelect');"><button type="button" class="today_cart_add_btn">결제하기</button></a></li>
+	</ul>
+</div>
+{ : }
+<ul class="layerBtnWraps btn_bx">
+	<li><a href="{bannerLink}">상품 바로가기</a></li>
+	<li id="btnBundleCart"><a href="javascript:gd_goods_order('d');">결제하기</a></li>
+</ul>
+{ / }
 
-{ # footer }
+

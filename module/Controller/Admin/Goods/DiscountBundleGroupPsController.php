@@ -39,6 +39,7 @@ class DiscountBundleGroupPsController extends \Bundle\Controller\Admin\Controlle
                 case 'group_modify':
                     $result = $dpx->saveInfoDiscountBundleGroup($postData);
                     $this->layer(__('등록 하였습니다.'));
+                    exit;
                     break;
 
                 // 그룹 삭제    

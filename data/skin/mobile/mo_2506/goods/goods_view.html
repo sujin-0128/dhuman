@@ -487,34 +487,41 @@
     
 
 
-    function showBundleGuideLayer(callback) {
-        $('#layerDim').removeClass('dn');
-        // $('#bundleGuideLayer').fadeIn();
+    function showBundleGuideLayer(goodType) {
 
-        // setTimeout(function(){
-        //     $('#bundleGuideLayer').fadeOut();
-        //     $('#layerDim').addClass('dn');
-        //     if (callback) callback();
-        // }, 2000);
+        if(goodType == 'mainBuy'){
+            var targetUrl = "../goods/layer_bundle_main_buy.php";
 
+        }else if(goodType == 'mainCart'){
+            var targetUrl = "../goods/layer_bundle_main_cart.php";
 
-        // $('#bundleGuideLayer').show();
-        
-        // var params = {
-        //     type : 'goods',
-        //     goodsNo: '{goodsView['goodsNo']}',
-        //     currentPageUrl: '{currentPageUrl}'
-        // };
+        }else if(goodType == "discountBuy"){
+            var targetUrl = "../goods/layer_bundle_discount_cart.php";
 
-        // $.ajax({
-        //     method: "POST",
-        //     cache: false,
-        //     url: "../goods/layer_option.php",
-        //     data: params,
-        //     success: function (data) {
-        //         $(".st_buy_content").empty().append(data);
-        //     }
-        // });
+        }
+       
+        $.ajax({
+            method: "POST",
+            cache: false,
+            url: targetUrl,
+            data: {
+                goodsNo: '{goodsNo}',
+            },
+            dataType: 'text',
+            cache: false,
+            async: false,
+            success: function (data) {
+                console.log('data :: '+data);
+                $(".st_bundle_content").empty().html(data);
+
+                $('#layerDim').removeClass('dn');
+                $('#bundleGuideLayer').show();
+            },
+            error: function (xhr, status, error) {
+                alert(e.responseText);
+            }
+        });
+        return false;
     }
 
 
@@ -996,11 +1003,11 @@ ex2cts.push('track', 'product');
 
         <!-- 결합 할인 안내 레이어 -->
         <div id="bundleGuideLayer" class="st_bundle_content" style="display:none" >
-            <img src="/data/skin/mobile/mo_2506/img/banner/86c3cbc8cde622a8c725d89a88bdcb96_46224.jpg" alt="디자인픽스 결합할인 테스트 배너" title="디자인픽스 결합할인 테스트 배너">
-            <ul class="layerBtnWraps">
-				<li><a href="javascript:void(0);">상품 바로가기</a></li>
-				<li id="btnBundleCart"><a href="javascript:void(0);">결제하기</a></li>
-			</ul>
+            
+            // <ul class="layerBtnWraps">
+			// 	<li><a href="javascript:void(0);">상품 바로가기</a></li>
+			// 	<li id="btnBundleCart"><a href="javascript:void(0);">결제하기</a></li>
+			// </ul>
 		</div>
 
         <div id="divAddPay" class="js_goods_add_pay" style="display:none">

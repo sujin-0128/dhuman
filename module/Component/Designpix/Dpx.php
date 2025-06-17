@@ -38,12 +38,17 @@ class Dpx
 
 	protected $admin = '';
 
+	protected $uploadDir = '';
+	protected $uploadLimitSize = 5; //mb 단위 
+
 	public function __construct()
 	{
 
 		if (!is_object($this->db)) {
 			$this->db = App::load('DB');
 		}
+
+		$this->uploadDir = Request::server()->get('DOCUMENT_ROOT')."/data/board/upload/bundle"; 
 	}
 
 	//get goodsSearchWord
@@ -1698,7 +1703,8 @@ class Dpx
             // 추가상품 정보
             $data = $this->getInfoDiscountBundleGroup($sno);
 
-            $discountBundleGroupGoodsList = $this->getInfoDiscountBundleGroupGoods($data['groupCd']);
+            $discountBundleMainGoodsList = $this->getInfoDiscountBundleGroupGoods($data['groupCd'], 'main');
+			$discountBundleDiscountGoodsList = $this->getInfoDiscountBundleGroupGoods($data['groupCd'], 'discount');
 
             $data['mode'] = 'modify';
 
@@ -1712,7 +1718,8 @@ class Dpx
         else  $data['scmFl'] = "y";
 
         $getData['data'] = $data;
-        $getData['discountBundleGroupGoodsList'] = $discountBundleGroupGoodsList;
+        $getData['discountBundleMainGoodsList'] = $discountBundleMainGoodsList;
+		$getData['discountBundleDiscountGoodsList'] = $discountBundleDiscountGoodsList;
         $checked['scmFl'][$data['scmFl']] = "checked = 'checked'";
 		$checked['allowNoBundleSale'][$data['allowNoBundleSale']] = "checked = 'checked'";
 		$checked['showNoBundlePopup'][$data['showNoBundlePopup']] = "checked = 'checked'";
@@ -1758,14 +1765,14 @@ class Dpx
      *
 	 * @sjlee
      */
-	public function getInfoDiscountBundleGroupGoods($groupCd,$arrBind = null)
+	public function getInfoDiscountBundleGroupGoods($groupCd, $bundleType=null)
 	{
-		// $getValue = Request::get()->toArray();
-		// if($getValue['goodsNo']){
-		// 	$this->arrWhere[] = "dbgg.goodsNo='".$getValue['goodsNo']."'";
-		// }
+		$this->arrWhere = [];
 		if($groupCd != ''){
 			$this->arrWhere[] = "dbgg.groupCd='".$groupCd."'";
+		}
+		if($bundleType != ''){
+			$this->arrWhere[] = "dbgg.bundleType='".$bundleType."'";
 		}
 		
 
@@ -1781,8 +1788,8 @@ class Dpx
         $query = $this->db->query_complete();
         $strSQL = 'SELECT ' . array_shift($query) . ' FROM dpx_discount_bundle_group_goods as dbgg ' . implode(' ', $query);
         $data = $this->db->query_fetch($strSQL);
+		// gd_debug($strSQL);
 
-		// echo '<pre>'.$strSQL;
 
         return $data;
 	}
@@ -1796,12 +1803,15 @@ class Dpx
      */
 	public function saveInfoDiscountBundleGroup($arrData)
 	{
+		// var_dump($arrData);
 		// 그룹명 체크
         if (Validator::required(gd_isset($arrData['groupNm'])) === false) {
             throw new \Exception(__('그룹명은 필수 항목입니다.'), 500);
         }
 
 		$arrData['addGoodsCnt'] = count($arrData['addGoodsNoData']);
+
+		// $files = Request::files()->toArray();
 
         // 정보 저장
         if ($arrData['mode'] == 'group_modify') {
@@ -1831,7 +1841,7 @@ class Dpx
             foreach ($arrData['addGoodsNoData'] as $k => $v) {
                 $groupDatap['groupCd'] = $arrData['groupCd'];
                 $groupDatap['goodsNo'] = $v;
-				$groupDatap['bundleType'] = $arrData['bundleType'][$k];
+				$groupDatap['bundleType'] = $arrData['itemBundleType'][$k];
                 $arrBind = $this->db->get_binding(DBTableField::tableDiscountBundleGroupGoods(), $groupDatap, 'insert');
                 $this->db->set_insert_db('dpx_discount_bundle_group_goods', $arrBind['param'], $arrBind['bind'], 'y');
             }
@@ -1865,12 +1875,39 @@ class Dpx
      * @return string
 	 * @sjlee
      */
-	public function checkAllowNoBundleSale($goodsNo)
+	public function checkAllowNoBundleSale($goodsNo,$groupCd=null)
 	{
-		// $getValue = Request::get()->toArray();
-		// $goodsNo = $getValue['goodsNo'];
+		$postValue = Request::post()->toArray();
+		$goodsNo = $postValue['goodsNo'];
+		$groupCd = $postValue['groupCd'];
+		$showNoBundlePopup = $postValue['showNoBundlePopup'];
 
-		if ($goodsNo) {
+
+		$this->arrWhere = [];
+		if($goodsNo != ''){
+			$this->arrWhere[] = "dbgg.goodsNo='".$goodsNo."'";
+		}
+		if($groupCd != ''){
+			$this->arrWhere[] = "dbgg.groupCd='".$groupCd."'";
+		}
+		
+
+        $join[] =  ' JOIN dpx_discount_bundle_group as dbg ON dbg.groupCd = dbgg.groupCd ';
+        
+
+        $this->db->strJoin = implode('', $join);
+        $this->db->strField = "dbg.*, dbgg.*  ";
+        $this->db->strWhere = implode(' AND ', gd_isset($this->arrWhere));
+
+        $query = $this->db->query_complete();
+        $strSQL = 'SELECT ' . array_shift($query) . ' FROM dpx_discount_bundle_group_goods as dbgg ' . implode(' ', $query).' LIMIT 1';
+        $data = $this->db->query_fetch($strSQL);
+		// gd_debug($strSQL);
+
+		return  $data;
+		
+
+		// if ($goodsNo) {
     			// $qry = "SELECT dbg.groupCd, count(dbgg.sno)
 				// 	FROM es_discount_bundle_group_goods as dbgg
 				// 		JOIN es_discount_bundle_group as dbg
@@ -1880,23 +1917,21 @@ class Dpx
 				// 	GROUP BY dbg.groupCd
 				// 	";
 
-				$qry = "SELECT dbg.*, dbgg.*, b.sno as b_sno, b.bannerImage, b.bannerImageAlt
-						FROM dpx_discount_bundle_group_goods as dbgg
-							JOIN dpx_discount_bundle_group as dbg ON dbgg.groupCd = dbg.groupCd
-							JOIN es_designBanner as b ON dbg.mainCartBannerCode = b.bannerGroupCode
-						WHERE dbgg.goodsNo = ?
-						limit 1
-					";
+			// 	$qry = "SELECT dbg.*, dbgg.*
+			// 			FROM dpx_discount_bundle_group_goods as dbgg
+			// 				JOIN dpx_discount_bundle_group as dbg ON dbgg.groupCd = dbg.groupCd
+			// 			WHERE dbgg.goodsNo = ?
+			// 			limit 1
+			// 		";
 					
-			$arrBind = [];
-			$this->db->bind_param_push($arrBind, 's', $goodsNo);
-			$result = $this->db->query_fetch($qry, $arrBind);
-			return $result;
-        }else{
-			return;
-		}
-
-		
+			// $arrBind = [];
+			// $this->db->bind_param_push($arrBind, 's', $goodsNo);
+			// $result = $this->db->query_fetch($qry, $arrBind);
+			// return $result;
+        // }else{
+		// 	return;
+		// }
+	
 	}
 
 	/**
@@ -1930,6 +1965,165 @@ class Dpx
         $this->db->set_delete_db('dpx_discount_bundle_group_goods', 'groupCd = "' . $groupCd . '"');
 	}
 
+
+
+	// public function attachUploadFile($attach, $attachKey){
+
+	// 	if(empty($attach['name']) || $attach['size']==0){
+	// 		$result['msg'] = '파일이 존재하지 않습니다. 파일을 첨부하세요.';			
+	// 	}else{
+
+
+	// 		//경로 확장자 추출
+	// 		$fileExt = pathinfo($attach['name'], PATHINFO_EXTENSION);
+	// 		$info = pathinfo($attach['name']);
+	// 		$fileNm = $info['filename'];
+
+
+	// 		$targetNm= date('YmdHis')."_".$attachKey."_".$fileNm.".".$fileExt;
+	// 		$targetFile = $this->uploadDir . $targetNm;
+
+	// 		if (file_exists($targetFile)) {
+	// 			$result['msg']='exists';
+	// 			return $result; 
+	// 		}
+
+	// 		if ($attach["size"] > ($this->uploadLimitSize * 1024 * 1024) ) {
+	// 			$result['msg']='허용용량 '.$this->uploadLimitSize.'Mb를 초과하였습니다. ';
+	// 			return $result; 
+	// 		}
+
+	// 		$allowExt = array("jpg","png","jpeg","gif","pdf");	
+
+	// 		if(in_array( strtolower($fileExt), $allowExt)===false ) {
+	// 			$result['msg']=$fileExt.'는 허용하지 않는 확장자입니다.';
+	// 			return $result; 
+	// 		}
+
+	// 		if (move_uploaded_file($attach["tmp_name"], $targetFile)) {
+	// 			$result['result'] = 'ok';
+	// 			$result['fileNm'] = $targetNm;
+	// 		} else {
+	// 			$result['msg']='업로드에 실패하였습니다.';
+	// 		}
+	// 	}
+
+	// 	return $result; 
+	// }
+
+
+	public function getBundelBannerData($skinName, $bannerGroupCode)
+	{
+		// Validation
+        if (empty($bannerGroupCode) === true) {
+            return false;
+        }
+
+		// Data
+        $arrBind = $arrWhere = [];
+        array_push($arrWhere, 'skinName = ?');
+        $this->db->bind_param_push($arrBind, 's', $skinName);
+        array_push($arrWhere, 'bannerGroupCode = ?');
+        $this->db->bind_param_push($arrBind, 's', $bannerGroupCode);
+
+        $arrField = DBTableField::setTableField('tableDesignBanner');
+        $strSQL = 'SELECT ' . implode(', ', $arrField) . ' FROM ' . DB_DESIGN_BANNER . ' WHERE bannerUseFl=\'y\' AND ' . implode(' AND ', $arrWhere) . ' ORDER BY bannerSort DESC, sno DESC LIMIT 1';
+        $getData = $this->db->secondary()->query_fetch($strSQL, $arrBind);
+
+
+        if (empty($getData) === false) {
+            return gd_htmlspecialchars_stripslashes($getData);
+        } else {
+            return false;
+        }
+	}
+
+	public function getBundleInfoForCart($arrGoodsNo)
+	{
+
+		// Validation
+        if (empty($arrGoodsNo) === true) {
+            return false;
+        }
+
+		$arrGoodsNoInt = array_map('intval', $arrGoodsNo);
+
+		// 먼저 해당 goodsNo들에 대한 bundle group 조회
+		$sql = "
+			SELECT dbgg.*, dbg.*
+			FROM dpx_discount_bundle_group_goods AS dbgg
+			JOIN dpx_discount_bundle_group AS dbg ON dbgg.groupCd = dbg.groupCd
+			WHERE dbgg.goodsNo IN (" . implode(',', $arrGoodsNoInt) . ") AND dbg.showCartBtnForBundle = 'y' 
+		";
+		$bundleRows = $this->db->query_fetch($sql);
+
+		if (empty($bundleRows)) {
+			return null;  // 결합할인 대상 없음
+		}
+		// gd_debug($bundleRows);
+
+		// 1단계: discount 상품 중에서 단독 discount 찾기
+		foreach ($bundleRows as $row) {
+			if ($row['bundleType'] === 'discount') {
+				$groupCd = $row['groupCd'];
+
+				// 이 그룹에 속하는 main 상품이 $arrGoodsNo 안에 포함되어 있는지 검사
+				$sqlMainInGoodsNo = "
+					SELECT goodsNo
+					FROM dpx_discount_bundle_group_goods
+					WHERE groupCd = ? AND bundleType = 'main' AND goodsNo IN (" . implode(',', $arrGoodsNoInt) . ")
+					LIMIT 1
+				";
+
+				$arrBind = [];
+				$this->db->bind_param_push($arrBind, 's', $groupCd);
+				$mainRow = $this->db->query_fetch($sqlMainInGoodsNo, $arrBind);
+
+				// 만약 main 상품이 없다면 → 이 discount 상품을 바로 리턴
+				if (empty($mainRow)) {
+					return [
+						'type' => 'discountWithoutMain',
+						'groupData' => $row,
+					];
+				}
+			}
+		}
+
+		// 2단계: 모든 discount에서 단독 discount가 없다면 → main 상품 중 첫번째 반환
+		foreach ($bundleRows as $row) {
+			if ($row['bundleType'] === 'main') {
+				$groupCd = $row['groupCd'];
+
+				// 이 그룹에 속하는 discount 상품이 $arrGoodsNo 안에 포함되어 있는지 검사
+				$sqlDiscountInGoodsNo = "
+					SELECT goodsNo
+					FROM dpx_discount_bundle_group_goods
+					WHERE groupCd = ? AND bundleType = 'discount' AND goodsNo IN (" . implode(',', $arrGoodsNoInt) . ")
+					LIMIT 1
+				";
+				$arrBind = [];
+				$this->db->bind_param_push($arrBind, 's', $groupCd);
+				$discountRow = $this->db->query_fetch($sqlDiscountInGoodsNo, $arrBind);
+
+				// 만약 discount 상품이 없다면 → 이 main 상품을 바로 리턴
+				if (empty($discountRow)) {
+					return [
+						'type' => 'main',
+						'groupData' => $row,
+					];
+				}
+				
+			}
+		}
+
+		// 3단계: 최종 fallback (혹시라도 main 도 없는 경우)
+		return [
+			'type' => 'noMatchedBundle',
+			'groupData' => $bundleRows[0],
+		];
+
+
+	}
 
 
 }

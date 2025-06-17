@@ -41,6 +41,7 @@ class DiscountBundleGroupRegisterController extends \Bundle\Controller\Admin\Con
         try {
 
             $data = $dpx->getDiscountBundleGroup(Request::get()->get('sno'));
+            // gd_debug($data);
 
             // --- 관리자 디자인 템플릿
             if (Request::get()->get('popupMode')) {
@@ -52,7 +53,8 @@ class DiscountBundleGroupRegisterController extends \Bundle\Controller\Admin\Con
             ]);
 
             $this->setData('data', $data['data']);
-            $this->setData('discountBundleGroupGoodsList', $data['discountBundleGroupGoodsList']);
+            $this->setData('discountBundleMainGoodsList', $data['discountBundleMainGoodsList']);
+            $this->setData('discountBundleDiscountGoodsList', $data['discountBundleDiscountGoodsList']);
             $this->setData('checked', $data['checked']);
 
             // 공급사와 동일한 페이지 사용

@@ -537,6 +537,9 @@ class DBTableField extends \Bundle\Component\Database\DBTableField
 			['val' => 'showNoBundlePopup', 'typ' => 's', 'def' => null], // 매핑 모드
 			['val' => 'showCartBtnForBundle', 'typ' => 's', 'def' => null], // 매핑 모드
 			['val' => 'preCartBundlePopup', 'typ' => 's', 'def' => null], // 매핑 모드
+			['val' => 'mainBuyBanner', 'typ' => 's', 'def' => null], // 매핑 모드
+			['val' => 'mainCartBanner', 'typ' => 's', 'def' => null], // 매핑 모드
+			['val' => 'discountCartBanner', 'typ' => 's', 'def' => null], // 매핑 모드
 			['val' => 'regDt', 'typ' => 's', 'def' => null], // 매핑 모드
 			['val' => 'modDt', 'typ' => 's', 'def' => null], // 매핑 모드
         ];

@@ -90,6 +90,8 @@ class LayerOptionController extends \Bundle\Controller\Mobile\Goods\LayerOptionC
 				$this->setData('layerBundleBuy', $layerBundleBuy);                          // 바로구매시 안내 레이어 url
 				$this->setData('layerBundleCart', $layerBundleCart);                        // 장바구니시 안내 레이어 url
 
+				// gd_debug($getData);
+
 			}
 			
 		}

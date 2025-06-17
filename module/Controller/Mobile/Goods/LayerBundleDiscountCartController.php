@@ -24,7 +24,7 @@ use Exception;
  * @package Bundle\Controller\Mobile\Goods
  * @author  su
  */
-class LayerBundleMainCartController extends \Controller\Mobile\Controller
+class LayerBundleDiscountCartController extends \Controller\Mobile\Controller
 {
     public $bannerPathDefault = 'img/banner';
 
@@ -43,13 +43,12 @@ class LayerBundleMainCartController extends \Controller\Mobile\Controller
 		$getData = $dpx->checkAllowNoBundleSale($postValue['goodsNo'], $postValue['groupCd']);
 
 
-
-        if($getData[0]['mainCartBanner']){
+        if($getData[0]['discountCartBanner']){
             $designBanner = \App::load('\\Component\\Design\\DesignBanner');
             $bannerDeviceType = $this->getRootDirecotory();
             $skinName = \Globals::get('gSkin.' . $bannerDeviceType . 'SkinName');
 
-            $getBannerData = $dpx->getBundelBannerData($skinName,$getData[0]['mainCartBanner']);
+            $getBannerData = $dpx->getBundelBannerData($skinName,$getData[0]['discountCartBanner']);
 
             if($getBannerData){
                 $bannerImagePath = $bannerDeviceType . DS . $skinName . DS . $this->bannerPathDefault . DS;

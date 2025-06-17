@@ -78,7 +78,6 @@ class PopupAddBundleGoodsController extends \Controller\Admin\Controller
             ]);
             $this->addScript([
                 // 'goodsChoice.js?' . time(),
-                // 'bundleGoodsChoice.js?',
                 'jquery/jquery.multi_select_box.js',
             ]);
  

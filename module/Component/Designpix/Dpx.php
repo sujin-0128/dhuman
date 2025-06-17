@@ -1550,9 +1550,6 @@ class Dpx
         $strSQL = 'SELECT ' . array_shift($query) . ' FROM dpx_discount_bundle_group as bg ' . implode(' ', $query);
         $data = $this->db->query_fetch($strSQL, $this->arrBind);
 
-		// echo $strSQL;
-
-
 		// --- 결과 정리
 		$getData['data'] = gd_htmlspecialchars_stripslashes($data);
 		$getData['sort'] = $sort;
@@ -1906,32 +1903,6 @@ class Dpx
 
 		return  $data;
 		
-
-		// if ($goodsNo) {
-    			// $qry = "SELECT dbg.groupCd, count(dbgg.sno)
-				// 	FROM es_discount_bundle_group_goods as dbgg
-				// 		JOIN es_discount_bundle_group as dbg
-				// 			ON dbgg.groupCd = dbg.groupCd
-				// 	WHERE dbg.allowNoBundleSale = 'y'
-				// 		AND dbgg.goodsNo = ?
-				// 	GROUP BY dbg.groupCd
-				// 	";
-
-			// 	$qry = "SELECT dbg.*, dbgg.*
-			// 			FROM dpx_discount_bundle_group_goods as dbgg
-			// 				JOIN dpx_discount_bundle_group as dbg ON dbgg.groupCd = dbg.groupCd
-			// 			WHERE dbgg.goodsNo = ?
-			// 			limit 1
-			// 		";
-					
-			// $arrBind = [];
-			// $this->db->bind_param_push($arrBind, 's', $goodsNo);
-			// $result = $this->db->query_fetch($qry, $arrBind);
-			// return $result;
-        // }else{
-		// 	return;
-		// }
-	
 	}
 
 	/**
@@ -1964,53 +1935,6 @@ class Dpx
 
         $this->db->set_delete_db('dpx_discount_bundle_group_goods', 'groupCd = "' . $groupCd . '"');
 	}
-
-
-
-	// public function attachUploadFile($attach, $attachKey){
-
-	// 	if(empty($attach['name']) || $attach['size']==0){
-	// 		$result['msg'] = '파일이 존재하지 않습니다. 파일을 첨부하세요.';			
-	// 	}else{
-
-
-	// 		//경로 확장자 추출
-	// 		$fileExt = pathinfo($attach['name'], PATHINFO_EXTENSION);
-	// 		$info = pathinfo($attach['name']);
-	// 		$fileNm = $info['filename'];
-
-
-	// 		$targetNm= date('YmdHis')."_".$attachKey."_".$fileNm.".".$fileExt;
-	// 		$targetFile = $this->uploadDir . $targetNm;
-
-	// 		if (file_exists($targetFile)) {
-	// 			$result['msg']='exists';
-	// 			return $result; 
-	// 		}
-
-	// 		if ($attach["size"] > ($this->uploadLimitSize * 1024 * 1024) ) {
-	// 			$result['msg']='허용용량 '.$this->uploadLimitSize.'Mb를 초과하였습니다. ';
-	// 			return $result; 
-	// 		}
-
-	// 		$allowExt = array("jpg","png","jpeg","gif","pdf");	
-
-	// 		if(in_array( strtolower($fileExt), $allowExt)===false ) {
-	// 			$result['msg']=$fileExt.'는 허용하지 않는 확장자입니다.';
-	// 			return $result; 
-	// 		}
-
-	// 		if (move_uploaded_file($attach["tmp_name"], $targetFile)) {
-	// 			$result['result'] = 'ok';
-	// 			$result['fileNm'] = $targetNm;
-	// 		} else {
-	// 			$result['msg']='업로드에 실패하였습니다.';
-	// 		}
-	// 	}
-
-	// 	return $result; 
-	// }
-
 
 	public function getBundelBannerData($skinName, $bannerGroupCode)
 	{
@@ -2122,8 +2046,7 @@ class Dpx
 			'groupData' => $bundleRows[0],
 		];
 
-
 	}
 
-
+	
 }

@@ -60,7 +60,6 @@ class DiscountBundleGroupRegisterController extends \Bundle\Controller\Admin\Con
             // 공급사와 동일한 페이지 사용
             $this->getView()->setPageName('goods/discount_bundle_group_register.php');
 
-            // var_dump($data['discountBundleGroupGoodsList']);
 
         } catch (\Exception $e) {
             throw $e;

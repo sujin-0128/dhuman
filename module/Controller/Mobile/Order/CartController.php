@@ -154,8 +154,9 @@ class CartController extends \Controller\Mobile\Controller
             $optionPriceConf = gd_policy('goods.display');
             $this->setData('optionPriceFl', gd_isset($optionPriceConf['optionPriceFl'], 'y')); // 상품 옵션가 표시설정
 
+            // 결합상품 할인
             $ip = trim(Request::server()->get('REMOTE_ADDR'));
-            if ($ip == '220.118.145.49') {
+            if ($ip == '220.118.145.49' || $ip == '121.141.26.133' || $ip == '121.141.26.134') {
                 $dpx = \App::load('\\Component\\Designpix\\Dpx');
                 $getData = $dpx->getBundleInfoForCart($goodsNo);
                 // gd_debug($getData);

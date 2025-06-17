@@ -65,8 +65,9 @@ class LayerOptionController extends \Bundle\Controller\Mobile\Goods\LayerOptionC
 			}
 		}
 
+		// 결합상품 할인
 		$ip = trim(Request::server()->get('REMOTE_ADDR'));
-		if ($ip == '220.118.145.49') {
+		if ($ip == '220.118.145.49' || $ip == '121.141.26.133' || $ip == '121.141.26.134') {
 			// var_dump($goodsView);
 			// --- 모듈 호출
 			$dpx = \App::load('\\Component\\Designpix\\Dpx');
